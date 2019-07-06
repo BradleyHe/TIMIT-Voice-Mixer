@@ -100,13 +100,9 @@ for ratio in TIR:
 				shutil.copy('timit/TEST/{}/{}.WRD'.format(dialect, sorted_keys[x]), 
 										'timit/TEST_{}_{}/{}/{}'.format(ratio, category, dialect, speaker1))
 
-
 				print('Target {} mixed with interf {} with TIR {}'.format(file1, file2, ratio))
 
 				#NOTE: If you comment this line out, SoX will produce warning messages due to files being written over in this directory.
 				shutil.rmtree('trimmed')
 
-				
-# factor = tir_factor(ratio, rms1, rms2)
-# print(calculate_tir(rms1, rms2 / factor))
-# cbn.build(['test/SA1.wav', 'test/SA2.wav'], 'test/SA1_SA2/out{}.wav'.format(ratio), 'mix',  [1, 1 / factor])
+print("DONE")
