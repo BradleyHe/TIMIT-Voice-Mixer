@@ -67,7 +67,6 @@ for ratio in TIR:
 	for category in categories:
 		print('Mixing {} with TIR {}'.format(category, ratio))
 		for dialect in dialects:
-			if dialect != 'DR1': continue
 			test_dir = '{}/TEST/{}'.format(timit_path, dialect)
 			new_test_dir = '{}/TEST_{}_{}/{}'.format(timit_path, ratio, category, dialect)
 
