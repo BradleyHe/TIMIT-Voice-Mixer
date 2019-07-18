@@ -25,7 +25,7 @@ RIFF_wav_postfix = '.wav'
 val_split 	= 0.05 
 
 categories = ['FF', 'MM', 'MF', 'FM']
-tir = [0, 3, 6, 9, 12, 15]
+tir = [0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30]
 data_type = 'float32'
 
 paths = sys.argv[1]
@@ -135,8 +135,12 @@ def preprocess_dataset(source_path):
 	print('Done')
 	return X, Y
 
+mean_val = []
+std_val = []
 
 ##### PREPROCESSING #####
+### NOTE: This preprocessing is specifically used to ***test*** mixed voices, and is not intended to train the LAS model.
+
 for ratio in tir:
 	for category in categories:
 		program_start_time = timeit.default_timer()
@@ -144,48 +148,37 @@ for ratio in tir:
 		target_path	= os.path.join(paths, 'timit_mfcc_39_{}_{}'.format(ratio, category))
 
 		print()
-		print('Preprocessing training data...')
-		X_train_all, y_train_all = preprocess_dataset(train_source_path)
+		X_train_all = []
+
+		if(len(mean_val) == 0):
+			print('Preprocessing training data...')
+			X_train_all, y_train_all = preprocess_dataset(train_source_path)
+
 		print('Preprocessing testing data in {}'.format(test_source_path))
 		X_test, y_test = preprocess_dataset(test_source_path)
 		print('Preprocessing completed.')
 
 		print()
-		train_size 	= len(X_train_all)
-		print('Collected {} training instances from {} (should be 4620 in complete TIMIT )'.format(train_size,train_source_path))
+
+		if(len(mean_val) == 0):
+			train_size 	= len(X_train_all)
+			print('Collected {} training instances from {} (should be 4620 in complete TIMIT )'.format(train_size,train_source_path))
+
 		print('Collected {} testing instances from {} (should be 1680 in complete TIMIT )'.format(len(X_test),test_source_path))
-
-		print('Spliting {} out of {} ({}%) training data as validation set.'.format(int(train_size*val_split),train_size,val_split*100))
-		val_idx = [int(i) for i in random.sample(range(0, train_size), int(train_size*val_split))]
-
-		X_train = []; X_val = []
-		y_train = []; y_val = []
-		for i in range(len(X_train_all)):
-		    if i in val_idx:
-		        X_val.append(X_train_all[i])
-		        y_val.append(y_train_all[i])
-		    else:
-		        X_train.append(X_train_all[i])
-		        y_train.append(y_train_all[i])
-
 		print()
 		print('Normalizing data to let mean=0, sd=1 for each channel.')
 
-		mean_val, std_val, _ = calc_norm_param(X_train)
+		if len(mean_val) == 0:
+			mean_val, std_val, _ = calc_norm_param(X_train_all)
 
-		X_train = normalize(X_train, mean_val, std_val)
-		X_val 	= normalize(X_val, mean_val, std_val)
 		X_test 	= normalize(X_test, mean_val, std_val)
-
-		X_train = set_type(X_train, data_type)
-		X_val 	= set_type(X_val, data_type)
 		X_test 	= set_type(X_test, data_type)
 
 		print()
 		print('Saving data to ',target_path)
 		with open(target_path + '.pkl', 'wb') as cPickle_file:
 		    cPickle.dump(
-		        [X_train, y_train, X_val, y_val, X_test, y_test], 
+		        [X_test, y_test], 
 		        cPickle_file, 
 		        protocol=cPickle.HIGHEST_PROTOCOL)
 

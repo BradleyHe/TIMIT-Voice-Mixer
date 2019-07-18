@@ -8,7 +8,7 @@ import sys
 test_dir = ''
 new_test_dir = ''
 categories = ['FF', 'MM', 'MF', 'FM']
-TIR = [0, 3, 6, 9, 12, 15]
+TIR = [0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30]
 dialects = ['DR1', 'DR2', 'DR3', 'DR4', 'DR5', 'DR6', 'DR7', 'DR8']
 
 if len(sys.argv) != 2:
