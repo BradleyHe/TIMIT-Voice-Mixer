@@ -17,7 +17,7 @@ def load_dataset(data_path,**kwargs):
     return X_test, y_test
 
 config_path = 'config/las_example_config.yaml'
-categories = ['MM', 'MF', 'FM']
+categories = ['FF', 'MM', 'MF', 'FM']
 tir = [0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30]
 
 conf = yaml.load(open(config_path,'r'))
