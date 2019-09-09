@@ -16,11 +16,14 @@ data_std = df.groupby(level=0).std()
 data_mean.to_csv('data_mean.csv')
 data_std.to_csv('data_std.csv')
 
+print(data_mean)
+print(data_std)
+
 for category in categories:
 	fig = plt.figure()
 	ax = fig.add_subplot(1, 1, 1)
 
-	ax.plot(list(data_mean.index), data_mean[category], color='k', linewidth=1, marker='o', mfc='g', clip_on=False, zorder=100)
+	plt.plot(list(data_mean.index), data_mean[category], color='k', linewidth=1, marker='o', mfc='g', clip_on=False, zorder=100)
 	plt.errorbar(data_mean.index, data_mean[category], fmt='none', ecolor='k', capsize=4, yerr=data_std[category])
 
 	ax.set_xlim(0, 12)
@@ -35,5 +38,6 @@ for category in categories:
 	plt.yticks(np.arange(0.25, 0.8, 0.05))
 	plt.xlabel('TIR (dB)')
 	plt.ylabel('PER')
-	ax.set_title('Performance with ' + category + ' mixing', fontdict={'fontsize': 10, 'fontweight': 'medium'})
-	plt.savefig(category + '.png')
+	plt.legend((category[0] + '-' + category[1], 'Unmodified'), loc='upper right')
+	ax.set_title('Performance with ' + category[0] + '-' + category[1]  + ' mixing', fontdict={'fontsize': 10, 'fontweight': 'medium'})
+	plt.savefig(category + '.pdf', bbox_inches = 'tight', pad_inches = 0)
