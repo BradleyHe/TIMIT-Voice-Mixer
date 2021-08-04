@@ -1,6 +1,8 @@
 # Dual Voice Mixer for TIMIT Dataset
 This project is intended to be used in conjunction with the [Pytorch implementation](https://github.com/AzizCode92/Listen-Attend-and-Spell-Pytorch) of LAS and test the LAS model's recognition ability when background noise is introduced. The TIMIT dataset is modified to generate voices with background noise that can be tested with a trained LAS model.
 
+Read the paper that used this project [here](https://arxiv.org/abs/2108.01245).
+
 ## Setup
 ### TIMIT
 - Move the files in mix_timit to the LAS Pytorch directory.
